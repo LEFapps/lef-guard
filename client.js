@@ -6,11 +6,16 @@ class Guard extends Component {
     super(props)
     this.state = { allowed: false }
   }
-  componentDidUpdate () {
+  componentDidMount () {
     Meteor.call('guard', { rule: this.props.rule }, (e, r) => {
       this.setState({ allowed: r })
     })
   }
+  // componentDidUpdate () {
+  //   Meteor.call('guard', { rule: this.props.rule }, (e, r) => {
+  //     this.setState({ allowed: r })
+  //   })
+  // }
   render () {
     return this.state.allowed ? this.props.children : null
   }
