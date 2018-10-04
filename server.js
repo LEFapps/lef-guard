@@ -1,5 +1,5 @@
 import Rules from './collections'
-import { intersection, some } from 'lodash'
+import { intersection } from 'lodash'
 import { Meteor } from 'meteor/meteor'
 
 Meteor.methods({
@@ -10,7 +10,7 @@ Meteor.methods({
       return false
     } else {
       const { allowedFor } = ruleDoc
-      if (some(allowedFor, 'noRole')) return true
+      if (allowedFor.includes('noRole') && !Meteor.userId()) return true
       const user = Meteor.user()
       if (!user) return false
       return intersection(allowedFor, user.roles).length > 0

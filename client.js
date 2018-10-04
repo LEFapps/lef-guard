@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { Meteor } from 'meteor/meteor'
+import { withRouter } from 'react-router'
 
 class Guard extends Component {
   constructor (props) {
@@ -7,8 +8,10 @@ class Guard extends Component {
     this.state = { allowed: false }
   }
   componentDidMount () {
-    Meteor.call('guard', { rule: this.props.rule }, (e, r) => {
-      this.setState({ allowed: r })
+    const { history, rule, redirect } = this.props
+    Meteor.call('guard', { rule }, (e, r) => {
+      if (!r && redirect) history.push(redirect)
+      else this.setState({ allowed: r })
     })
   }
   // componentDidUpdate () {
@@ -21,5 +24,7 @@ class Guard extends Component {
   }
 }
 
-export default Guard
-export { Guard }
+const Container = withRouter(Guard)
+
+export default Container
+export { Container as Guard }

@@ -12,5 +12,6 @@ Package.onUse(api => {
 
 Npm.depends({
   react: '16.5.2',
-  lodash: '4.17.10'
+  lodash: '4.17.10',
+  'react-router': '4.3.1'
 })
