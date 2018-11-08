@@ -1,6 +1,6 @@
 Package.describe({
   summary: 'Guard the functions you care about',
-  version: '0.1.0',
+  version: '0.1.1',
   name: 'lef:guard'
 })
 

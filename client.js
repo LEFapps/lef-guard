@@ -15,23 +15,16 @@ class Guard extends Component {
       else this.setState({ allowed: r })
     })
   }
-  componentDidUpdate () {
-    Meteor.call('guard', { rule: this.props.rule }, (e, r) => {
-      const { history, rule, redirect } = this.props
-      Meteor.call('guard', { rule }, (e, r) => {
-        if (!r && redirect) history.push(redirect)
-        else this.setState({ allowed: r })
+  componentDidUpdate ({ userId }, { allowed }) {
+    if (this.state.allowed !== allowed || this.props.userId !== userId) {
+      Meteor.call('guard', { rule: this.props.rule }, (e, r) => {
+        const { history, rule, redirect } = this.props
+        Meteor.call('guard', { rule }, (e, r) => {
+          if (!r && redirect) history.push(redirect)
+          else this.setState({ allowed: r })
+        })
       })
-    })
-  }
-  shouldComponentUpdate (nextProps, nextState) {
-    if (
-      this.state.allowed !== nextState.allowed ||
-      this.props.userId !== nextProps.userId
-    ) {
-      return true
     }
-    return false
   }
   render () {
     return this.state.allowed ? this.props.children : null
