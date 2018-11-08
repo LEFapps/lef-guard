@@ -1,11 +1,11 @@
 Package.describe({
   summary: 'Guard the functions you care about',
-  version: '0.0.1',
+  version: '0.1.0',
   name: 'lef:guard'
 })
 
 Package.onUse(api => {
-  api.use(['ecmascript'])
+  api.use(['ecmascript', 'lef:utils'])
   api.mainModule('client.js', 'client')
   api.mainModule('server.js', 'server')
 })
