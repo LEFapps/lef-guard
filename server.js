@@ -17,3 +17,5 @@ Meteor.methods({
     }
   }
 })
+
+export default Rules
