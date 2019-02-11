@@ -17,9 +17,42 @@ Insert a rule document in the `rules` collection.
 ```json
 {
   "_id": "admin_dashboard",
-  "allowedFor": [ "admin" ]
+  "roles": [ "admin" ]
 }
 ```
+
+## Scratchpad future functionalities
+
+```js
+// document
+{
+  "_id": "123",
+  "owner": "userId"
+}
+
+// user
+{
+  "_id": "userId"
+}
+
+// rule
+{
+  "_id": "view_documents",
+  "roles": {
+    "author": {
+      "owner": "user._id"
+    },
+    "admin": {}
+  }
+}
+
+Meteor.call('guard', 'view_documents', (e,r) => {
+  if (r) {
+    return 'jej!'
+  }
+})
+```
+
 
 ## Todo
 
