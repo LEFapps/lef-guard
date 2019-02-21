@@ -10,6 +10,16 @@ import Guard from 'meteor/lef:guards'
 </Guard>
 ```
 
+**Important** Make sure to wrap your code with the user provider!
+
+```JSX
+import { UserProvider } from 'meteor/lef:utils'
+
+<UserProvider>
+  <App />
+</UserProvider>
+```
+
 ## Rule doc
 
 Insert a rule document in the `rules` collection.
