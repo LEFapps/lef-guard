@@ -4,16 +4,21 @@ import { withRouter } from 'react-router'
 import { withUser } from 'meteor/lef:utils'
 
 class Guard extends Component {
+  _isMounted = false
   constructor (props) {
     super(props)
     this.state = { allowed: false }
   }
   componentDidMount () {
+    this._isMounted = true
     const { history, rule, redirect } = this.props
     Meteor.call('guard', { rule }, (e, r) => {
       if (!r && redirect) history.push(redirect)
-      else this.setState({ allowed: r })
+      else this._isMounted ? this.setState({ allowed: r }) : null
     })
+  }
+  componentWillUnmount () {
+    this._isMounted = false
   }
   componentDidUpdate ({ userId }, { allowed }) {
     if (this.state.allowed !== allowed || this.props.userId !== userId) {
@@ -21,7 +26,7 @@ class Guard extends Component {
         const { history, rule, redirect } = this.props
         Meteor.call('guard', { rule }, (e, r) => {
           if (!r && redirect) history.push(redirect)
-          else this.setState({ allowed: r })
+          else this._isMounted ? this.setState({ allowed: r }) : null
         })
       })
     }
