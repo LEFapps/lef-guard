@@ -11,26 +11,28 @@ class Guard extends Component {
   }
   componentDidMount () {
     this._isMounted = true
-    const { history, rule, redirect } = this.props
-    Meteor.call('guard', { rule }, (e, r) => {
-      if (!r && redirect) history.push(redirect)
-      else this._isMounted ? this.setState({ allowed: r }) : null
-    })
+    const { rule } = this.props
+    !rule
+      ? this.callback(null, !!Meteor.userId())
+      : Meteor.call('guard', { rule }, this.callback)
   }
   componentWillUnmount () {
     this._isMounted = false
   }
   componentDidUpdate ({ userId }, { allowed }) {
+    const { rule } = this.props
     if (this.state.allowed !== allowed || this.props.userId !== userId) {
-      Meteor.call('guard', { rule: this.props.rule }, (e, r) => {
-        const { history, rule, redirect } = this.props
-        Meteor.call('guard', { rule }, (e, r) => {
-          if (!r && redirect) history.push(redirect)
-          else this._isMounted ? this.setState({ allowed: r }) : null
-        })
-      })
+      !rule
+        ? this.callback(null, !!Meteor.userId())
+        : Meteor.call('guard', { rule }, this.callback)
     }
   }
+  callback = (e, allowed) =>
+    !allowed && this.props.redirect
+      ? this.props.history.push(this.props.redirect)
+      : this._isMounted
+        ? this.setState({ allowed })
+        : null
   render () {
     return this.state.allowed ? this.props.children : null
   }

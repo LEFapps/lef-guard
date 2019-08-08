@@ -3,11 +3,22 @@
 ## Usage
 
 ```JSX
-import Guard from 'meteor/lef:guards'
+import Guard from 'meteor/lef:guard'
 
-<Guard rule='admin_dashboard'>
-  // guarded content
-</Guard>
+const Basic = () => (
+  <Guard rule={'admin_dashboard'}>
+    // guarded content
+  </Guard>)
+
+const Shorthand = () => (
+  <Guard>
+    // only visible if logged in
+  </Guard>)
+
+const Redirect = () => (
+  <Guard rule={'post_create'} redirect={'/posts'}>
+    // redirects unless rule was met
+  </Guard>)
 ```
 
 **Important** Make sure to wrap your code with the user provider!
