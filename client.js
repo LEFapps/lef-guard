@@ -2,6 +2,7 @@ import { Component } from 'react'
 import { Meteor } from 'meteor/meteor'
 import { withRouter } from 'react-router'
 import { withUser } from 'meteor/lef:utils'
+import Rules from './collections'
 
 class Guard extends Component {
   _isMounted = false
@@ -41,4 +42,4 @@ class Guard extends Component {
 const Container = withRouter(withUser(Guard))
 
 export default Container
-export { Container as Guard }
+export { Container as Guard, Rules }

@@ -18,4 +18,8 @@ Meteor.methods({
   }
 })
 
+Meteor.publish('rules', (q, p) => Rules.find(q, p))
+
 export default Rules
+
+export { Rules }
